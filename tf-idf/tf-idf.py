@@ -8,12 +8,12 @@ corpus = {
     "d2": "Les termes « map » et « reduce », et les concepts sous-jacents, sont empruntés aux langages de programmation fonctionnelle utilisés \
         pour leur construction (map et reduce de la programmation fonctionnelle et des langages de programmation tableau).",
     "d3": "Il permet de manipuler de grandes quantités de données en les distribuant dans un cluster de machines pour être traitées. Ce modèle \
-        connaît un vif succès auprès de sociétés possédant d'importants centres de traitement de données telles Amazon et Facebook.",
-    "d4": "Map Reduce commence aussi à être utilisé au sein du Cloud computing. De nombreux framework ont vu le jour afin d'implémenter le Map \
+        connaît un vif succès auprès de sociétés possédant d’importants centres de traitement de données telles Amazon et Facebook.",
+    "d4": "Map Reduce commence aussi à être utilisé au sein du Cloud computing. De nombreux framework ont vu le jour afin d’implémenter le Map \
         Reduce. Le plus connu est Hadoop qui a été développé par Apache Software Foundation et Google était à l’origine du Map Reduce.",
-    "d5": "Ces framework possèdent des inconvénients qui réduisent considérablement ses performances notamment envmilieu hétérogène. \
-        Des framework permettant d'améliorer les performances de Hadoop et les performancesvglobales, tant en termes de vitesse de \
-        traitement qu'en consommation électrique, commencent à voir le jour.",
+    "d5": "Ces framework possèdent des inconvénients qui réduisent considérablement ses performances notamment en milieu hétérogène. \
+        Des framework permettant d’améliorer les performances de Hadoop et les performances globales, tant en termes de vitesse de \
+        traitement qu’en consommation électrique, commencent à voir le jour.",
     "d6": "C’est un modèle de programmation popularisé par Google. Il est principalement utilisé pour la manipulation et le traitement d’un \
         nombre important de données au sein d’un cluster de noeuds."
 }
@@ -22,7 +22,8 @@ terms = ["google", "framework", "map", "et"]
 
 
 def tokenize_text(document):
-    return [i.lower() for i in nltk.word_tokenize(document) if i.isalpha()]
+    document = document.replace("-", " ") # fix sous-jacents
+    return [i.lower() for i in nltk.word_tokenize(document, language='french') if i.isalpha()]
 
 def count_words(tokens):
     return nltk.FreqDist(tokens)
@@ -46,6 +47,10 @@ def process_documents(corpus, terms):
 
 
 if __name__ == "__main__":
+    for name, document in corpus.items():
+        print(tokenize_text(document))
+        print("\n")
+    
     process_documents(corpus, terms)
 
 
