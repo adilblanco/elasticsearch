@@ -1,3 +1,4 @@
+import math
 import nltk
 nltk.download('punkt')
 
@@ -23,7 +24,7 @@ terms = ["google", "framework", "map", "et"]
 
 def tokenize_text(document):
     document = document.replace("-", " ") # fix sous-jacents
-    return [i.lower() for i in nltk.word_tokenize(document, language='french') if i.isalpha()]
+    return [i.lower() for i in nltk.word_tokenize(document, language="french") if i.isalpha()]
 
 def count_words(tokens):
     return nltk.FreqDist(tokens)
@@ -44,15 +45,24 @@ def process_documents(corpus, terms):
         print(f"Stopwords sizes: {dict(word_counts)}")
         print(f"TF calculation: {tf}")
         print("\n")
+        
+def calculate_idf(corpus, terms):
+    N = len(corpus)
+    idf = {}
+
+    for term in terms:
+        df = sum(term in tokenize_text(document) for document in corpus.values())
+        print(f"log({N}/{df})")
+        idf[term] = math.log(N / (df + 1))
+
+    return idf
 
 
 if __name__ == "__main__":
-    for name, document in corpus.items():
-        print(tokenize_text(document))
-        print("\n")
     
     process_documents(corpus, terms)
-
+    idf = calculate_idf(corpus=corpus, terms=terms)
+    print(idf)
 
 # words = {}
 # for name, document in corpus.items():
